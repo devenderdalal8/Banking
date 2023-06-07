@@ -1,9 +1,9 @@
 package com.example.data.dataSource
 
+import android.util.Log
 import com.example.data.ApiService
 import com.example.data.model.deshboard.DashboardDataResponse
 import com.example.data.model.deshboard.ProfileData
-import com.example.data.utils.toApiFailure
 import com.example.domain.model.dashboard.DashboardData
 import com.example.domain.model.dashboard.DashboardProfileData
 import com.example.domain.model.dashboard.DashboardResponseModel
@@ -13,12 +13,13 @@ import com.example.domain.repository.DashboardRepository
 import com.example.domain.utils.Resource
 import javax.inject.Inject
 
+/**DashboardDataSourceImpl is data source class for dashboard*/
 class DashboardDataSourceImpl @Inject constructor(
     private val apiService: ApiService,
 ) : DashboardRepository {
-    override suspend fun postProfileApi(auth: String): Resource<ProfileResponseModel> {
+    override suspend fun postProfileApi(): Resource<ProfileResponseModel> {
         return try {
-            val response = apiService.getUserProfileApi(auth)
+            val response = apiService.getUserProfileApi()
             if (response.isSuccessful) {
                 val list = response.body()
                 list.let {
@@ -37,18 +38,18 @@ class DashboardDataSourceImpl @Inject constructor(
                     )
                 }
             } else {
+                Log.e(TAG, "postProfileApi: ${response.message()}")
                 Resource.Error(response.message())
             }
-        } catch (throwable: Throwable) {
-            throwable.toApiFailure().let { error ->
-                Resource.Error(error.toString())
-            }
+        } catch (throwable: Exception) {
+            Log.e(TAG, "postProfileApi: ${throwable.message}")
+            Resource.Error(throwable.toString())
         }
     }
 
-    override suspend fun postDashboardApi(auth: String): Resource<DashboardResponseModel> {
+    override suspend fun postDashboardApi(): Resource<DashboardResponseModel> {
         return try {
-            val response = apiService.getDashboardApi(auth)
+            val response = apiService.getDashboardApi()
             if (response.isSuccessful) {
                 val list = response.body()
                 list.let {
@@ -61,12 +62,12 @@ class DashboardDataSourceImpl @Inject constructor(
                     )
                 }
             } else {
+                Log.e(TAG, "postDashboardApi: $response.message()")
                 Resource.Error(response.message())
             }
-        } catch (throwable: Throwable) {
-            throwable.toApiFailure().let { error ->
-                Resource.Error(error.toString())
-            }
+        } catch (throwable: java.lang.Exception) {
+            Log.e(TAG, "postDashboardApi: ${throwable.message}")
+            Resource.Error(throwable.toString())
         }
     }
 
@@ -103,5 +104,9 @@ class DashboardDataSourceImpl @Inject constructor(
             }
         }
         return list
+    }
+
+    companion object {
+        val TAG: String? = DashboardDataSourceImpl::class.java.simpleName
     }
 }

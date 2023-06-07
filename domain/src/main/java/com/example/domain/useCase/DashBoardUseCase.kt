@@ -6,18 +6,17 @@ import com.example.domain.repository.DashboardRepository
 import com.example.domain.utils.Resource
 import javax.inject.Inject
 
+/**DashBoardUseCase is used to create use case file for dashboard*/
 class DashBoardUseCase @Inject constructor(
     private val repository: DashboardRepository,
 ) {
 
-    suspend fun getProfileApi(auth: String): Resource<ProfileResponseModel> {
-        return repository.postProfileApi(auth)
+    suspend fun getProfileApi(): Resource<ProfileResponseModel> {
+        return repository.postProfileApi()
     }
 
-    suspend fun getDashBoardApi(
-        auth: String,
-    ): Resource<DashboardResponseModel> {
-        return repository.postDashboardApi(auth)
+    suspend fun getDashBoardApi(): Resource<DashboardResponseModel> {
+        return repository.postDashboardApi()
     }
 
 

@@ -4,8 +4,9 @@ import com.example.domain.model.dashboard.DashboardResponseModel
 import com.example.domain.model.dashboard.ProfileResponseModel
 import com.example.domain.utils.Resource
 
+/**DashboardRepository is repository for dashboard repository*/
 interface DashboardRepository {
-    suspend fun postProfileApi(auth :String): Resource<ProfileResponseModel>
-    suspend fun postDashboardApi(auth :String): Resource<DashboardResponseModel>
+    suspend fun postProfileApi(): Resource<ProfileResponseModel>
+    suspend fun postDashboardApi(): Resource<DashboardResponseModel>
 
 }

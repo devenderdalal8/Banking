@@ -14,6 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:supportsRtl="true"
         android:background="@drawable/login_background">
 
         <ProgressBar
@@ -28,6 +29,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.43" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLanguage"
+            style="@style/TextView.24sp.Black.Inter_Bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/thirtyDp"
+            android:layout_marginTop="@dimen/thirtyDp"
+            android:drawableStart="@drawable/ic_language_icon"
+            android:drawablePadding="@dimen/tenDp"
+            android:text="@string/en"
+            android:textSize="@dimen/txt_sixteen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvLogin"
@@ -89,6 +104,7 @@
                     android:gravity="start|center"
                     android:hint="@string/phone_number"
                     android:inputType="phone"
+                    android:textAlignment="viewStart"
                     android:maxLength="10"
                     android:paddingStart="@dimen/tenDp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -131,7 +147,9 @@
                 android:background="@android:color/transparent"
                 android:gravity="start|center"
                 android:hint="@string/password"
+                android:textAlignment="viewStart"
                 android:maxLength="10"
+                android:inputType="textPassword"
                 android:paddingHorizontal="@dimen/txt_nineteen"
                 android:paddingVertical="@dimen/txt_seventeen" />
         </androidx.cardview.widget.CardView>

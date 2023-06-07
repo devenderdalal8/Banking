@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.data.utils.KeyStorePreference
 import com.example.domain.model.dashboard.DashboardResponseModel
 import com.example.domain.model.dashboard.ProfileResponseModel
 import com.example.domain.useCase.DashBoardUseCase
@@ -19,11 +20,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+/**MainViewModel is view model class is used for call data from usecase*/
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val dashBoardUseCase: DashBoardUseCase,
-    @ApplicationContext var context: Context?,
+    @ApplicationContext var context: Context?
 ) : ViewModel() {
 
     private val profileData = MutableLiveData<Resource<ProfileResponseModel>>()
@@ -34,17 +35,15 @@ class MainViewModel @Inject constructor(
     val _dashBoardData: LiveData<Resource<DashboardResponseModel>>
         get() = dashBoardData
 
-    val auth: String = ""
-
-    fun getDashBoardApi(phone: String, pass: String) {
+    /**getDashBoardApi is used to call profile api*/
+    fun getDashBoardApi() {
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             if (Utility.isNetworkAvailable(context)) {
-                val response = dashBoardUseCase.getDashBoardApi(auth)
+                val response = dashBoardUseCase.getDashBoardApi()
                 try {
                     dashBoardData.postValue(response)
                 } catch (ex: Exception) {
                     dashBoardData.postValue(Resource.Error(ex.message.toString()))
-                    Log.e(TAG, "postAuthApi: ${ex.message} + ${response.message} ")
                 }
             } else {
                 dashBoardData.postValue(context?.getString(R.string.internetIsNotAvailable)
@@ -53,15 +52,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
-
+    /** coroutineExceptionHandler is used to handle the exceptions in coroutine*/
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
     }
 
+    /**getProfileApi is used to call the profile api*/
     fun getProfileApi() {
         viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             if (Utility.isNetworkAvailable(context)) {
-                val response = dashBoardUseCase.getProfileApi(auth)
+                val response = dashBoardUseCase.getProfileApi()
                 try {
                     profileData.postValue(response)
                 } catch (ex: Exception) {
@@ -81,6 +81,6 @@ class MainViewModel @Inject constructor(
 
 
     companion object {
-        val TAG: String = MainViewModel::class.java.simpleName
+        private val TAG: String = MainViewModel::class.java.simpleName
     }
 }

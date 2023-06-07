@@ -12,6 +12,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 
+/**ApiService is interface for api sevice*/
 interface ApiService {
     @POST("auth")
     suspend fun postAuthApi(@Body data: LoginDataRequestModel): Response<LoginDataResponseModel>
@@ -21,10 +22,10 @@ interface ApiService {
 
 
     @GET("users/profile")
-    suspend fun getUserProfileApi(@Header("Auth") auth: String): Response<ProfileDataResponseModel>
+    suspend fun getUserProfileApi(): Response<ProfileDataResponseModel>
 
     @GET("dashboard")
-    suspend fun getDashboardApi(@Header("Auth") auth: String): Response<DashboardDataResponseModel>
+    suspend fun getDashboardApi(): Response<DashboardDataResponseModel>
 
 
 }
