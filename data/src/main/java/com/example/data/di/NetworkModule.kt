@@ -14,7 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 /**NetworkModule is module class for network*/
@@ -41,12 +40,9 @@ class NetworkModule {
     fun providesOkHttpClient(
         preference: KeyStorePreference,
     ): OkHttpClient {
-//        val cacheSize = (5 * 1024 * 1024).toLong()
-//        val mCache = Cache(context.cacheDir, cacheSize)
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient.Builder()
-//            .cache(mCache) // make your app offline-friendly without a database!
             .connectTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
