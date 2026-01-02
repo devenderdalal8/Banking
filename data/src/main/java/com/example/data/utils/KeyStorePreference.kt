@@ -18,7 +18,7 @@ class KeyStorePreference @Inject constructor(
     val preferences: SharedPreferences,
 ) {
 
-    var edit: SharedPreferences.Editor = preferences.edit()
+    private var edit: SharedPreferences.Editor = preferences.edit()
 
     fun storeAuth(value: String?) {
         edit.putString(AUTH, value)
